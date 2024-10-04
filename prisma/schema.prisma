@@ -4,7 +4,7 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -82,4 +82,50 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Poet {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  name      String?
+  bio       String?
+  shayaris  Shayari[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Shayari {
+  id        Int         @id @default(autoincrement())
+  title     String
+  content   String
+  type      ShayariType
+  poet      Poet        @relation(fields: [poetId], references: [id])
+  poetId    Int
+  likes     Like[]
+  comments  Comment[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+enum ShayariType {
+  GHAZAL
+  NAZM
+  SHAYARI
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    Int // Foreign key from the User model, if you have one
+  shayari   Shayari  @relation(fields: [shayariId], references: [id])
+  shayariId Int
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  userId    Int // Foreign key from the User model, if you have one
+  shayari   Shayari  @relation(fields: [shayariId], references: [id])
+  shayariId Int
+  content   String
+  createdAt DateTime @default(now())
 }
