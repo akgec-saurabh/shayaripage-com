@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 
 export const loginWithGoogle = async () => {
   await signIn("google", { redirectTo: "/" });
@@ -8,4 +8,7 @@ export const loginWithGoogle = async () => {
 
 export const loginWithMagicLink = async () => {
   await signIn("resend", { redirectTo: "/" });
+};
+export const logout = async () => {
+  await signOut();
 };
