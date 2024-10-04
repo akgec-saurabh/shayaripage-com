@@ -8,11 +8,11 @@ import prisma from "./prisma";
 export default {
   providers: [
     Google,
-    Resend({
-      from: "admin@shayaripage.com",
-    }),
+    // Resend({
+    //   from: "admin@shayaripage.com",
+    // }),
   ],
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
